@@ -78,5 +78,8 @@ validate.ErroMessages();*/
             Assert.That(validate.HasErrors, Is.True);
             Assert.That(validate.Errors[0].Message, Is.EqualTo("Name should be woot"));
         }
+
+        // Is.True
+        // Is.False
     }
 }
