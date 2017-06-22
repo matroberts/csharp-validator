@@ -10,33 +10,20 @@ namespace CSharpValidator
 
         public void That(bool value, string message, string property = null)
         {
-            if (value == false)
-            {
-                errors.Add(new ValidationError(message, property));
-            }
+            That(value, Iss.True, message, property);
         }
         public void That(Func<bool> lambda, string message, string property = null)
         {
-            if (lambda() == false)
-            {
+            That(lambda(), Iss.True, message, property);
+        }
+
+        public void That<TActual>(TActual actual, IConstraint constraint, string message, string property = null)
+        {
+            if(constraint.Apply(actual) == false)
                 errors.Add(new ValidationError(message, property));
-            }
         }
 
         public bool HasErrors => errors.Any();
         public IReadOnlyList<ValidationError> Errors => errors;
     }
-
-    public class ValidationError
-    {
-        public ValidationError(string message, string property)
-        {
-            Message = message;
-            Property = property;
-        }
-        public string Message { get; set; }
-        public string Property { get; set; }
-    }
-
-
 }

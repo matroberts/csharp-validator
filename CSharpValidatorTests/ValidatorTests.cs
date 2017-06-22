@@ -22,7 +22,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IfABoolArgumentIsTrue_NoErrorIsRaised()
+        public void Validate_IfABoolArgument_IsTrue_NoErrorIsRaised()
         {
             // Arrange
             var testObject = new TestObject() { Flag = true };
@@ -36,7 +36,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IfABoolArgumentIsFalse_AnErrorIsRaised()
+        public void Validate_IfABoolArgument_IsFalse_AnErrorIsRaised()
         {
             // Arrange
             var testObject = new TestObject() { Flag = false };
@@ -51,7 +51,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IfABoolLambdaIsTrue_NoErrorIsRaised()
+        public void Validate_IfABoolLambda_IsTrue_NoErrorIsRaised()
         {
             // Arrange
             var testObject = new TestObject() { Name = "woot"};
@@ -65,7 +65,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IfABoolLambdatIsFalse_AnErrorIsRaised()
+        public void Validate_IfABoolLambda_IsFalse_AnErrorIsRaised()
         {
             // Arrange
             var testObject = new TestObject() { Name = "wrong" };
@@ -79,7 +79,62 @@ validate.ErroMessages();*/
             Assert.That(validate.Errors[0].Message, Is.EqualTo("Name should be woot"));
         }
 
-        // Is.True
-        // Is.False
+        [Test]
+        public void Validate_IsTrueConstraint_ShouldReturnNoError_IfObjectIsTrue()
+        {
+            // Arrange
+            var testObject = new TestObject() { Flag = true };
+
+            // Act
+            var validate = new Validate();
+            validate.That(testObject.Flag, Iss.True, "Flag should be true");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.False);
+        }
+
+        [Test]
+        public void Validate_IsTrueConstraint_ShouldReturnError_IfObjectIsFalse()
+        {
+            // Arrange
+            var testObject = new TestObject() { Flag = false };
+
+            // Act
+            var validate = new Validate();
+            validate.That(testObject.Flag, Iss.True, "Flag should be true");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.True);
+            Assert.That(validate.Errors[0].Message, Is.EqualTo("Flag should be true"));
+        }
+
+        [Test]
+        public void Validate_IsFalseConstraint_ShouldReturnNoError_IfObjectIsFalse()
+        {
+            // Arrange
+            var testObject = new TestObject() { Flag = false };
+
+            // Act
+            var validate = new Validate();
+            validate.That(testObject.Flag, Iss.False, "Flag should be false");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.False);
+        }
+
+        [Test]
+        public void Validate_IsFalseConstraint_ShouldReturnError_IfObjectIsTrue()
+        {
+            // Arrange
+            var testObject = new TestObject() { Flag = true };
+
+            // Act
+            var validate = new Validate();
+            validate.That(testObject.Flag, Iss.False, "Flag should be false");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.True);
+            Assert.That(validate.Errors[0].Message, Is.EqualTo("Flag should be false"));
+        }
     }
 }
