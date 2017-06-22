@@ -1,8 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
+﻿
 namespace CSharpValidator
 {
-    public class Iss
+    public class Is
     {
         public static TrueConstraint True => new TrueConstraint();
         public static FalseConstraint False => new FalseConstraint();

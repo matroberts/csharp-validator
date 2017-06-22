@@ -10,11 +10,11 @@ namespace CSharpValidator
 
         public void That(bool value, string message, string property = null)
         {
-            That(value, Iss.True, message, property);
+            That(value, Is.True, message, property);
         }
         public void That(Func<bool> lambda, string message, string property = null)
         {
-            That(lambda(), Iss.True, message, property);
+            That(lambda(), Is.True, message, property);
         }
 
         public void That<TActual>(TActual actual, IConstraint constraint, string message, string property = null)

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using V = CSharpValidator;
 
-namespace CSharpValidator
+namespace CSharpValidatorTests
 {
     [TestFixture]
     public class ValidatorTests
@@ -28,7 +30,7 @@ validate.ErroMessages();*/
             var testObject = new TestObject() { Flag = true };
 
             // Act
-            var validate = new Validate();
+            var validate = new V.Validate();
             validate.That(testObject.Flag, "Flag should be true");
 
             // Assert
@@ -42,7 +44,7 @@ validate.ErroMessages();*/
             var testObject = new TestObject() { Flag = false };
 
             // Act
-            var validate = new Validate();
+            var validate = new V.Validate();
             validate.That(testObject.Flag, "Flag should be true");
 
             // Assert
@@ -57,7 +59,7 @@ validate.ErroMessages();*/
             var testObject = new TestObject() { Name = "woot"};
 
             // Act
-            var validate = new Validate();
+            var validate = new V.Validate();
             validate.That(() => testObject.Name=="woot", "Name should be woot");
 
             // Assert
@@ -71,7 +73,7 @@ validate.ErroMessages();*/
             var testObject = new TestObject() { Name = "wrong" };
 
             // Act
-            var validate = new Validate();
+            var validate = new V.Validate();
             validate.That(() => testObject.Name == "woot", "Name should be woot");
 
             // Assert
@@ -86,8 +88,8 @@ validate.ErroMessages();*/
             var testObject = new TestObject() { Flag = true };
 
             // Act
-            var validate = new Validate();
-            validate.That(testObject.Flag, Iss.True, "Flag should be true");
+            var validate = new V.Validate();
+            validate.That(testObject.Flag, V.Is.True, "Flag should be true");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -100,8 +102,8 @@ validate.ErroMessages();*/
             var testObject = new TestObject() { Flag = false };
 
             // Act
-            var validate = new Validate();
-            validate.That(testObject.Flag, Iss.True, "Flag should be true");
+            var validate = new V.Validate();
+            validate.That(testObject.Flag, V.Is.True, "Flag should be true");
 
             // Assert
             Assert.That(validate.HasErrors, Is.True);
@@ -115,8 +117,8 @@ validate.ErroMessages();*/
             var testObject = new TestObject() { Flag = false };
 
             // Act
-            var validate = new Validate();
-            validate.That(testObject.Flag, Iss.False, "Flag should be false");
+            var validate = new V.Validate();
+            validate.That(testObject.Flag, V.Is.False, "Flag should be false");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -129,8 +131,8 @@ validate.ErroMessages();*/
             var testObject = new TestObject() { Flag = true };
 
             // Act
-            var validate = new Validate();
-            validate.That(testObject.Flag, Iss.False, "Flag should be false");
+            var validate = new V.Validate();
+            validate.That(testObject.Flag, V.Is.False, "Flag should be false");
 
             // Assert
             Assert.That(validate.HasErrors, Is.True);
