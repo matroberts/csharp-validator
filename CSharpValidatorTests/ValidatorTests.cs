@@ -18,7 +18,7 @@ validate.That(() => object.Property,  Is.GreathT().And..., "Must be greathan");
 validate.ErroMessages();*/
 
         [Test]
-        public void Validate_IfABoolArgument_IsTrue_NoErrorIsRaised()
+        public void IfABoolArgument_IsTrue_NoErrorIsRaised()
         {
             // Arrange
             var testObject = new { Flag = true };
@@ -32,7 +32,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IfABoolArgument_IsFalse_AnErrorIsRaised()
+        public void IfABoolArgument_IsFalse_AnErrorIsRaised()
         {
             // Arrange
             var testObject = new { Flag = false };
@@ -47,7 +47,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IfABoolLambda_IsTrue_NoErrorIsRaised()
+        public void IfABoolLambda_IsTrue_NoErrorIsRaised()
         {
             // Arrange
             var testObject = new { Name = "woot"};
@@ -61,7 +61,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IfABoolLambda_IsFalse_AnErrorIsRaised()
+        public void IfABoolLambda_IsFalse_AnErrorIsRaised()
         {
             // Arrange
             var testObject = new { Name = "wrong" };
@@ -76,7 +76,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IsTrueConstraint_ShouldReturnNoError_IfObjectIsTrue()
+        public void IsTrueConstraint_ShouldReturnNoError_IfObjectIsTrue()
         {
             // Arrange
             var testObject = new { Flag = true };
@@ -90,7 +90,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IsTrueConstraint_ShouldReturnError_IfObjectIsFalse()
+        public void IsTrueConstraint_ShouldReturnError_IfObjectIsFalse()
         {
             // Arrange
             var testObject = new { Flag = false };
@@ -105,7 +105,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IsFalseConstraint_ShouldReturnNoError_IfObjectIsFalse()
+        public void IsFalseConstraint_ShouldReturnNoError_IfObjectIsFalse()
         {
             // Arrange
             var testObject = new { Flag = false };
@@ -119,7 +119,7 @@ validate.ErroMessages();*/
         }
 
         [Test]
-        public void Validate_IsFalseConstraint_ShouldReturnError_IfObjectIsTrue()
+        public void IsFalseConstraint_ShouldReturnError_IfObjectIsTrue()
         {
             // Arrange
             var testObject = new { Flag = true };
@@ -134,7 +134,7 @@ validate.ErroMessages();*/
         }
 
 	    [Test]
-	    public void Validate_IsNullConstraint_ShouldReturnNoError_IfObjectIsNull()
+	    public void IsNullConstraint_ShouldReturnNoError_IfObjectIsNull()
 	    {
 		    // Act
 		    var validate = new V.Validate();
@@ -145,7 +145,7 @@ validate.ErroMessages();*/
 	    }
 
 		[Test]
-	    public void Validate_IsNullConstraint_ShouldReturnError_IfObjectIsNotNull()
+	    public void IsNullConstraint_ShouldReturnError_IfObjectIsNotNull()
 	    {
 		    // Act
 		    var validate = new V.Validate();
@@ -157,7 +157,7 @@ validate.ErroMessages();*/
 		}
 
 	    [Test]
-	    public void Validate_IsNotNullConstraint_ShouldReturnNoError_IfObjectIsNotNull()
+	    public void IsNotNullConstraint_ShouldReturnNoError_IfObjectIsNotNull()
 	    {
 		    // Act
 		    var validate = new V.Validate();
@@ -168,7 +168,7 @@ validate.ErroMessages();*/
 	    }
 
 	    [Test]
-	    public void Validate_IsNotNullConstraint_ShouldReturnError_IfObjectIsNull()
+	    public void IsNotNullConstraint_ShouldReturnError_IfObjectIsNull()
 	    {
 		    // Act
 		    var validate = new V.Validate();
@@ -179,10 +179,86 @@ validate.ErroMessages();*/
 		    Assert.That(validate.Errors[0].Message, Is.EqualTo("Should be not null"));
 	    }
 
-		// True/False
-		// Null/NotNull
-        // TrimmedNullOrEmpty/ NotTrimmedNullOrEmpty
+        [Test]
+        public void IsNullOrWhiteSpace_ShouldThrowException_IfActualIsNotAString()
+        {
+            // Arrange
+            var testObj = new {Flag = false};
+
+            // Act/Assert
+            var validate = new V.Validate();
+            Assert.That(() => validate.That(testObj.Flag, V.Is.NullOrWhiteSpace, "Should be trimmed null or empty"),
+                            Throws.ArgumentException.With.Message.EqualTo("IsNullOrWhiteSpace can only be used with string type."));
 
 
-	}
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("     ")]
+        public void NullOrWhiteSpace_ShouldReturnNoError_IfObjectIsNull(string arg)
+        {
+            // Act
+            var validate = new V.Validate();
+            validate.That(arg, V.Is.NullOrWhiteSpace, "Should be null or whitespace");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.False);
+        }
+
+        [Test]
+        public void NullOrWhiteSpace_ShouldReturnError_IfObjectIsNotWhitespace()
+        {
+            // Act
+            var validate = new V.Validate();
+            validate.That("   notwhitespace", V.Is.NullOrWhiteSpace, "Should be null or whitespace");
+        
+            // Assert
+            Assert.That(validate.HasErrors, Is.True);
+            Assert.That(validate.Errors[0].Message, Is.EqualTo("Should be null or whitespace"));
+        }
+
+        [Test]
+        public void IsNotNullOrWhiteSpace_ShouldThrowException_IfActualIsNotAString()
+        {
+            // Arrange
+            var testObj = new { Flag = false };
+
+            // Act/Assert
+            var validate = new V.Validate();
+            Assert.That(() => validate.That(testObj.Flag, V.Is.NotNullOrWhiteSpace, "Should not be null or whitespace"),
+                Throws.ArgumentException.With.Message.EqualTo("IsNotNullOrWhiteSpace can only be used with string type."));
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("     ")]
+        public void NotNullOrWhiteSpace_ShouldReturnError_IfObjectIsNullOrWhitespace(string arg)
+        {
+            // Act
+            var validate = new V.Validate();
+            validate.That(arg, V.Is.NotNullOrWhiteSpace, "Should not be null or whitespace");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.True);
+            Assert.That(validate.Errors[0].Message, Is.EqualTo("Should not be null or whitespace"));
+        }
+
+        [Test]
+        public void NotNullOrWhiteSpace_ShouldReturnNoError_IfObjectIsNotWhitespace()
+        {
+            // Act
+            var validate = new V.Validate();
+            validate.That("   notwhitespace", V.Is.NotNullOrWhiteSpace, "Should not be null or whitespace");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.False);
+        }
+
+        // True/False
+        // Null/NotNull
+        // NullOrWhiteSpace/ NotNullOrWhiteSpace
+
+
+    }
 }

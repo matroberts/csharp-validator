@@ -1,12 +1,16 @@
 ﻿
+using System;
+
 namespace CSharpValidator
 {
     public class Is
     {
         public static TrueConstraint True => new TrueConstraint();
         public static FalseConstraint False => new FalseConstraint();
-	    public static NullConstraint Null =>  new NullConstraint();
-	    public static NotNullConstraint NotNull =>  new NotNullConstraint();
+	    public static NullConstraint Null => new NullConstraint();
+	    public static NotNullConstraint NotNull => new NotNullConstraint();
+	    public static NullOrWhiteSpaceConstraint NullOrWhiteSpace => new NullOrWhiteSpaceConstraint();
+	    public static NotNullOrWhiteSpaceConstraint NotNullOrWhiteSpace => new NotNullOrWhiteSpaceConstraint();
     }
 
 
@@ -16,7 +20,38 @@ namespace CSharpValidator
         bool Apply<TActual>(TActual actual);
     }
 
-	public class NullConstraint : IConstraint
+    public class NotNullOrWhiteSpaceConstraint : IConstraint
+    {
+        public bool Apply<TActual>(TActual actual)
+        {
+            if (actual == null)
+            {
+                return false;
+            }
+            if ((object)actual is string str)
+            {
+                return string.IsNullOrWhiteSpace(str) == false;
+            }
+            throw new ArgumentException("IsNotNullOrWhiteSpace can only be used with string type.");
+        }
+    }
+
+    public class NullOrWhiteSpaceConstraint : IConstraint
+    {
+        public bool Apply<TActual>(TActual actual)
+        {
+            if (actual == null)
+            {
+                return true;
+            }
+            if ((object)actual is string str)
+            {
+                return string.IsNullOrWhiteSpace(str);
+            }
+            throw new ArgumentException("IsNullOrWhiteSpace can only be used with string type.");
+        }
+    }
+    public class NullConstraint : IConstraint
 	{
 		public bool Apply<TActual>(TActual actual) => actual == null;
 	}
