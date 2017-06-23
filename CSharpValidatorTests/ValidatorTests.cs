@@ -263,10 +263,46 @@ namespace CSharpValidatorTests
 
         #endregion
 
-        // True/False
-        // Null/NotNull
-        // NullOrWhiteSpace/ NotNullOrWhiteSpace
+        #region LengthLessThanOrEqualTo
 
+        [Test]
+        public void LengthLessThanOrEqualTo_ShouldThrowException_IfActualIsNotAString()
+        {
+            // Arrange
+            var testObj = new { Flag = false };
 
+            // Act/Assert
+            var validate = new V.Validate();
+            Assert.That(() => validate.That(testObj.Flag, V.Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10"),
+                Throws.ArgumentException.With.Message.EqualTo("LengthLessThanOrEqualTo can only be used with string type."));
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("0")]
+        [TestCase("0123456789")]
+        public void LengthLessThanOrEqualTo_ShouldPass_IfActualLenthIsLessThanOrEqualToTargetLength(string arg)
+        {
+            // Act
+            var validate = new V.Validate();
+            validate.That(arg, V.Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.False);
+        }
+
+        [Test]
+        public void LengthLessThanOrEqualTo_ShouldFail_IfActualLenthIsLongerThanTargetLength()
+        {
+            // Act
+            var validate = new V.Validate();
+            validate.That("01234567890", V.Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10");
+
+            // Assert
+            Assert.That(validate.HasErrors, Is.True);
+            Assert.That(validate.Errors[0].Message, Is.EqualTo("Should be length less than or equal to 10"));
+        }
+
+        #endregion
     }
 }

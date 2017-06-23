@@ -11,6 +11,7 @@ namespace CSharpValidator
 	    public static NotNullConstraint NotNull => new NotNullConstraint();
 	    public static NullOrWhiteSpaceConstraint NullOrWhiteSpace => new NullOrWhiteSpaceConstraint();
 	    public static NotNullOrWhiteSpaceConstraint NotNullOrWhiteSpace => new NotNullOrWhiteSpaceConstraint();
+	    public static LengthLessThanOrEqualToConstraint LengthLessThanOrEqualTo(int length) => new LengthLessThanOrEqualToConstraint(length);
     }
 
 
@@ -18,6 +19,27 @@ namespace CSharpValidator
 	public interface IConstraint
     {
         bool Apply<TActual>(TActual actual);
+    }
+
+    public class LengthLessThanOrEqualToConstraint : IConstraint
+    {
+        private readonly int length;
+        public LengthLessThanOrEqualToConstraint(int length)
+        {
+            this.length = length;
+        }
+        public bool Apply<TActual>(TActual actual)
+        {
+            if (actual == null)
+            {
+                return true;
+            }
+            if ((object)actual is string str)
+            {
+                return str.Length <= length;
+            }
+            throw new ArgumentException("LengthLessThanOrEqualTo can only be used with string type.");
+        }
     }
 
     public class NotNullOrWhiteSpaceConstraint : IConstraint
