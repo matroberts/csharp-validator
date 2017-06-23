@@ -5,26 +5,34 @@ namespace CSharpValidator
     {
         public static TrueConstraint True => new TrueConstraint();
         public static FalseConstraint False => new FalseConstraint();
+	    public static NullConstraint Null =>  new NullConstraint();
+	    public static NotNullConstraint NotNull =>  new NotNullConstraint();
     }
 
-    public interface IConstraint
+
+
+	public interface IConstraint
     {
         bool Apply<TActual>(TActual actual);
     }
 
-    public class TrueConstraint : IConstraint
+	public class NullConstraint : IConstraint
+	{
+		public bool Apply<TActual>(TActual actual) => actual == null;
+	}
+
+	public class NotNullConstraint : IConstraint
+	{
+		public bool Apply<TActual>(TActual actual) => actual != null;
+	}
+
+	public class TrueConstraint : IConstraint
     {
-        public bool Apply<TActual>(TActual actual)
-        {
-            return true.Equals(actual);
-        }
+        public bool Apply<TActual>(TActual actual) => true.Equals(actual);
     }
 
     public class FalseConstraint : IConstraint
     {
-        public bool Apply<TActual>(TActual actual)
-        {
-            return false.Equals(actual);
-        }
+        public bool Apply<TActual>(TActual actual) => false.Equals(actual);
     }
 }
