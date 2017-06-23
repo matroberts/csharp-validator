@@ -10,16 +10,18 @@ namespace CSharpValidator
 
         public void That(bool value, string message, string property = null)
         {
-            That(value, Is.True, message, property);
+            That(value, Is => Is.True, message, property);
         }
         public void That(Func<bool> lambda, string message, string property = null)
         {
-            That(lambda(), Is.True, message, property);
+            That(lambda(), Is => Is.True, message, property);
         }
 
-        public void That<TActual>(TActual actual, IConstraint constraint, string message, string property = null)
+        public void That<TActual>(TActual actual, Func<Is<TActual>, IConstraint> constraintExpression, string message, string property = null)
         {
-            if(constraint.Apply(actual) == false)
+            var constraint = constraintExpression(new Is<TActual>());
+
+            if (constraint.Apply(actual) == false)
                 errors.Add(new ValidationError(message, property));
         }
 

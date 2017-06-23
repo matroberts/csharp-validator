@@ -3,18 +3,16 @@ using System;
 
 namespace CSharpValidator
 {
-    public class Is
+    public class Is<TActual>
     {
-        public static TrueConstraint True => new TrueConstraint();
-        public static FalseConstraint False => new FalseConstraint();
-	    public static NullConstraint Null => new NullConstraint();
-	    public static NotNullConstraint NotNull => new NotNullConstraint();
-	    public static NullOrWhiteSpaceConstraint NullOrWhiteSpace => new NullOrWhiteSpaceConstraint();
-	    public static NotNullOrWhiteSpaceConstraint NotNullOrWhiteSpace => new NotNullOrWhiteSpaceConstraint();
-	    public static LengthLessThanOrEqualToConstraint LengthLessThanOrEqualTo(int length) => new LengthLessThanOrEqualToConstraint(length);
+        public  TrueConstraint True => new TrueConstraint();
+        public  FalseConstraint False => new FalseConstraint();
+	    public  NullConstraint Null => new NullConstraint();
+	    public  NotNullConstraint NotNull => new NotNullConstraint();
+	    public  NullOrWhiteSpaceConstraint NullOrWhiteSpace => new NullOrWhiteSpaceConstraint();
+	    public  NotNullOrWhiteSpaceConstraint NotNullOrWhiteSpace => new NotNullOrWhiteSpaceConstraint();
+	    public  LengthLessThanOrEqualToConstraint LengthLessThanOrEqualTo(int length) => new LengthLessThanOrEqualToConstraint(length);
     }
-
-
 
 	public interface IConstraint
     {

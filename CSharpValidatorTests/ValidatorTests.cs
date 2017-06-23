@@ -69,7 +69,7 @@ namespace CSharpValidatorTests
             Assert.That(validate.Errors[0].Message, Is.EqualTo("Name should be woot"));
         }
 
-            #endregion
+        #endregion
 
         #region True/False
 
@@ -81,7 +81,7 @@ namespace CSharpValidatorTests
 
             // Act
             var validate = new V.Validate();
-            validate.That(testObject.Flag, V.Is.True, "Flag should be true");
+            validate.That(testObject.Flag, Is => Is.True, "Flag should be true");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -95,7 +95,7 @@ namespace CSharpValidatorTests
 
             // Act
             var validate = new V.Validate();
-            validate.That(testObject.Flag, V.Is.True, "Flag should be true");
+            validate.That(testObject.Flag, Is => Is.True, "Flag should be true");
 
             // Assert
             Assert.That(validate.HasErrors, Is.True);
@@ -110,7 +110,7 @@ namespace CSharpValidatorTests
 
             // Act
             var validate = new V.Validate();
-            validate.That(testObject.Flag, V.Is.False, "Flag should be false");
+            validate.That(testObject.Flag, Is => Is.False, "Flag should be false");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -124,14 +124,14 @@ namespace CSharpValidatorTests
 
             // Act
             var validate = new V.Validate();
-            validate.That(testObject.Flag, V.Is.False, "Flag should be false");
+            validate.That(testObject.Flag, Is => Is.False, "Flag should be false");
 
             // Assert
             Assert.That(validate.HasErrors, Is.True);
             Assert.That(validate.Errors[0].Message, Is.EqualTo("Flag should be false"));
         }
 
-            #endregion
+        #endregion
 
         #region Null/NotNull
 
@@ -140,7 +140,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That((object)null, V.Is.Null, "Should be null");
+            validate.That((object)null, Is => Is.Null, "Should be null");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -151,7 +151,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That("notnull", V.Is.Null, "Should be null");
+            validate.That("notnull", Is => Is.Null, "Should be null");
 
             // Assert
             Assert.That(validate.HasErrors, Is.True);
@@ -163,7 +163,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That("notnull", V.Is.NotNull, "Should be not null");
+            validate.That("notnull", Is => Is.NotNull, "Should be not null");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -174,14 +174,14 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That((object)null, V.Is.NotNull, "Should be not null");
+            validate.That((object)null, Is => Is.NotNull, "Should be not null");
 
             // Assert
             Assert.That(validate.HasErrors, Is.True);
             Assert.That(validate.Errors[0].Message, Is.EqualTo("Should be not null"));
         }
 
-            #endregion
+        #endregion
 
         #region NullOrWhiteSpace/NotNullOrWhitespace
 
@@ -193,7 +193,7 @@ namespace CSharpValidatorTests
 
             // Act/Assert
             var validate = new V.Validate();
-            Assert.That(() => validate.That(testObj.Flag, V.Is.NullOrWhiteSpace, "Should be trimmed null or empty"),
+            Assert.That(() => validate.That(testObj.Flag, Is => Is.NullOrWhiteSpace, "Should be trimmed null or empty"),
                 Throws.ArgumentException.With.Message.EqualTo("IsNullOrWhiteSpace can only be used with string type."));
 
 
@@ -206,7 +206,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That(arg, V.Is.NullOrWhiteSpace, "Should be null or whitespace");
+            validate.That(arg, Is => Is.NullOrWhiteSpace, "Should be null or whitespace");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -217,7 +217,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That("   notwhitespace", V.Is.NullOrWhiteSpace, "Should be null or whitespace");
+            validate.That("   notwhitespace", Is => Is.NullOrWhiteSpace, "Should be null or whitespace");
         
             // Assert
             Assert.That(validate.HasErrors, Is.True);
@@ -232,7 +232,7 @@ namespace CSharpValidatorTests
 
             // Act/Assert
             var validate = new V.Validate();
-            Assert.That(() => validate.That(testObj.Flag, V.Is.NotNullOrWhiteSpace, "Should not be null or whitespace"),
+            Assert.That(() => validate.That(testObj.Flag, Is => Is.NotNullOrWhiteSpace, "Should not be null or whitespace"),
                 Throws.ArgumentException.With.Message.EqualTo("IsNotNullOrWhiteSpace can only be used with string type."));
         }
 
@@ -243,7 +243,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That(arg, V.Is.NotNullOrWhiteSpace, "Should not be null or whitespace");
+            validate.That(arg, Is => Is.NotNullOrWhiteSpace, "Should not be null or whitespace");
 
             // Assert
             Assert.That(validate.HasErrors, Is.True);
@@ -255,7 +255,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That("   notwhitespace", V.Is.NotNullOrWhiteSpace, "Should not be null or whitespace");
+            validate.That("   notwhitespace", Is => Is.NotNullOrWhiteSpace, "Should not be null or whitespace");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -273,7 +273,7 @@ namespace CSharpValidatorTests
 
             // Act/Assert
             var validate = new V.Validate();
-            Assert.That(() => validate.That(testObj.Flag, V.Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10"),
+            Assert.That(() => validate.That(testObj.Flag, Is => Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10"),
                 Throws.ArgumentException.With.Message.EqualTo("LengthLessThanOrEqualTo can only be used with string type."));
         }
 
@@ -285,7 +285,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That(arg, V.Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10");
+            validate.That(arg, Is => Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10");
 
             // Assert
             Assert.That(validate.HasErrors, Is.False);
@@ -296,7 +296,7 @@ namespace CSharpValidatorTests
         {
             // Act
             var validate = new V.Validate();
-            validate.That("01234567890", V.Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10");
+            validate.That("01234567890", Is => Is.LengthLessThanOrEqualTo(10), "Should be length less than or equal to 10");
 
             // Assert
             Assert.That(validate.HasErrors, Is.True);
